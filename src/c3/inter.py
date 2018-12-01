@@ -1,10 +1,10 @@
 # __author__: newtorn
 # __date__: 2018-11-29
-# expression: A  +   B / C + D * E / F
+# expression: A  +   ( B  -   C ) * D + E  / F - (G - (H + I))
 
 # token_type 【单词类型】
-INTEGER, PLUS, MINUS, MUL, DIV, EOF = (
-	'INTEGER', 'PLUS', 'MINUS', 'MUL', 'DIV', 'EOF'
+INTEGER, PLUS, MINUS, MUL, DIV, LPAREN, RPAREN, EOF = (
+	'INTEGER', 'PLUS', 'MINUS', 'MUL', 'DIV', 'LPAREN', 'RPAREN', 'EOF'
 )
 
 class Token(object):
@@ -93,6 +93,14 @@ class Lexer(object):
 			if self.current_char == '/':
 				self.advance()
 				return Token(DIV, '/')
+
+			if self.current_char == '(':
+				self.advance()
+				return Token(LPAREN, '(')
+
+			if self.current_char == ')':
+				self.advance()
+				return Token(RPAREN, ')')
 			
 			self.error()
 
@@ -125,8 +133,14 @@ class Interpreter(object):
 		返回因子的值
 		'''
 		token = self.current_token
-		self.eat(INTEGER)
-		return token.value
+		if token.type == INTEGER:
+			self.eat(INTEGER)
+			return token.value
+		elif token.type == LPAREN:
+			self.eat(LPAREN)
+			result = self.term()
+			self.eat(RPAREN)
+			return result
 
 	def term(self):
 		'''
