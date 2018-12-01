@@ -1,5 +1,5 @@
 # __author__: newtorn
-# __date__: 2018-11-29
+# __date__: 2018-12-1
 # expression: A  +   ( B  -   C ) * D + E  / F - (G - (H + I))
 
 # token_type 【单词类型】
