@@ -123,6 +123,8 @@ class Interpreter(object):
 		'''
 		获取一个单词作为因子 【目前仅支持整数】
 		返回因子的值
+		语法:
+		factor : INTEGER
 		'''
 		token = self.current_token
 		self.eat(INTEGER)
@@ -132,6 +134,8 @@ class Interpreter(object):
 		'''
 		获取一个单词作为项 【目前仅支持整数】
 		返回项的值
+		语法:
+		term : factor ((MUL|DIV) factor)*
 		'''
 		result = self.factor()
 
@@ -150,6 +154,8 @@ class Interpreter(object):
 		'''
 		表达式含义分析与计算
 		返回表达式的值
+		语法:
+		expr : term ((PLUS|MINUS) term)*
 		'''
 		result = self.term()
 
